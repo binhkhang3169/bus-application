@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+  # postgres_ticket:
+  #   container_name: postgres_ticket
+  #   image: postgres:13
+  #   environment:
+  #     POSTGRES_USER: ${DATABASE_USER}
+  #     POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+  #     POSTGRES_DB: ${DATABASE_NAME}
+  #   ports:
+  #     - "${DATABASE_PORT}:${DATABASE_PORT}"
+  #   volumes:
+  #     - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+  #     - postgres_ticket_data:/var/lib/postgresql/data
+
+  # redis_ticket:
+  #   container_name: redis_ticket
+  #   image: redis:6
+  #   ports:
+  #     - "${REDIS_PORT}:6379"
+  #   command:
+  #     ["redis-server", "--appendonly", "yes", "--notify-keyspace-events", "Ex"]
+
+  ticket_service:
+    container_name: ticket_service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # depends_on:
+    #   - postgres_ticket
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    env_file:
+      - .env
+    restart: unless-stopped

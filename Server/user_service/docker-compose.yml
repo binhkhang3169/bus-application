@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  # mysql_user_service:
+  #   image: mysql:8
+  #   container_name: mysql_user_service
+  #   restart: always
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: root
+  #     MYSQL_DATABASE: user_service
+  #     MYSQL_USER: user
+  #     MYSQL_PASSWORD: password
+  #   ports:
+  #     - "3306:3306"
+  #   volumes:
+  #     - ./init_user_service.sql:/docker-entrypoint-initdb.d/init.sql
+  #   healthcheck:
+  #     test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+
+  user_service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: user_service_app
+    # depends_on:
+    #   mysql_user_service:
+    #     condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: 
+      SPRING_DATASOURCE_USERNAME: 
+      SPRING_DATASOURCE_PASSWORD: 
+    ports:
+      - "8081:8081"

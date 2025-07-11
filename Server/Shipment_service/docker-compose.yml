@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  shipment_service:
+    container_name: shipment_service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    # depends_on:
+    #   - postgres_shipment
+    env_file:
+      - .env
+    # environment:
+    #   - DB_HOST=postgres_shipment
+    #   - DB_PORT=5436
+    restart: unless-stopped
+
+  # postgres_shipment:
+  #   container_name: postgres_shipment
+  #   image: postgres:13
+  #   environment:
+  #     POSTGRES_USER: ${DB_USER}
+  #     POSTGRES_PASSWORD: ${DB_PASSWORD}
+  #     POSTGRES_DB: ${DB_NAME}
+  #   ports:
+  #     - "${DB_PORT}:5436"
+  #   command: -p 5436
+  #   volumes:
+  #     - postgres_shipment_data:/var/lib/postgresql/data
+  #     - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  postgres_shipment_data:

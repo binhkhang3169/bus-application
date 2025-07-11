@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ship-service-deployment
+  labels:
+    app: ship-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ship-service
+  template:
+    metadata:
+      labels:
+        app: ship-service
+    spec:
+      containers:
+        - name: ship-service
+          image: duancntt.azurecr.io/ship-service:v2
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8088
+          env:
+            - name: SERVER_ADDRESS
+              value: "0.0.0.0:8088"
+            - name: DB_DRIVER
+              value: "postgres"
+            - name: DB_HOST
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: POSTGRES_HOST },
+                }
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_USER
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: POSTGRES_USER },
+                }
+            - name: DB_NAME
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: SHIP_SERVICE_DB_NAME },
+                }
+            - name: DB_SSLMODE
+              value: "require"
+            - name: DB_PASSWORD
+              valueFrom:
+                {
+                  secretKeyRef:
+                    { name: platform-secrets, key: POSTGRES_PASSWORD },
+                }
+            - name: BASE_RATE_PER_KG
+              value: "5.0"
+            - name: DIMENSIONAL_WEIGHT_FACTOR
+              value: "5000.0"
+            - name: ITEM_TYPE_MULTIPLIER_DOCUMENT
+              value: "1.0"
+            - name: ITEM_TYPE_MULTIPLIER_ELECTRONICS
+              value: "1.5"
+            - name: ITEM_TYPE_MULTIPLIER_FURNITURE
+              value: "2.0"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ship-service
+spec:
+  selector:
+    app: ship-service
+  ports:
+    - protocol: TCP
+      port: 8088
+      targetPort: 8088
+  type: ClusterIP

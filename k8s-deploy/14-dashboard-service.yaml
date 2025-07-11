@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dashboard-service-deployment
+  labels:
+    app: dashboard-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dashboard-service
+  template:
+    metadata:
+      labels:
+        app: dashboard-service
+    spec:
+      containers:
+      - name: dashboard-service
+        image: duancntt.azurecr.io/dashboard-service:v1 # Image mới cần build
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8091 # Port mới để tránh trùng lặp
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dashboard-service
+spec:
+  selector:
+    app: dashboard-service
+  ports:
+  - protocol: TCP
+    port: 8091 # Port mà các service khác sẽ gọi đến
+    targetPort: 8091
+  type: ClusterIP

@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trip-service-deployment
+  labels:
+    app: trip-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: trip-service
+  template:
+    metadata:
+      labels:
+        app: trip-service
+    spec:
+      containers:
+        - name: trip-service
+          image: duancntt.azurecr.io/trip-service:v1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8082
+          env:
+            - name: SERVER_PORT
+              value: "8082"
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: MYSQL_TRIP_URL },
+                }
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "root" # User mặc định cho các service
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                {
+                  secretKeyRef:
+                    { name: platform-secrets, key: MYSQL_TRIP_PASSWORD },
+                }
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: trip-service
+spec:
+  selector:
+    app: trip-service
+  ports:
+    - protocol: TCP
+      port: 8082
+      targetPort: 8082
+  type: ClusterIP

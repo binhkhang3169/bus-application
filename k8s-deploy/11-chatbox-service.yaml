@@ -1,0 +1,155 @@
+# File: 11-chat-bot-service.yaml (Cấu hình cho Rasa đa container)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chat-bot-service-deployment
+  labels:
+    app: chat-bot-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chat-bot-service
+  template:
+    metadata:
+      labels:
+        app: chat-bot-service
+    spec:
+      # --- Định nghĩa 2 container trong cùng 1 Pod ---
+      containers:
+        # Container 1: Rasa Server chính
+        - name: rasa-server
+          image: duancntt.azurecr.io/rasa-server:v1
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 5005
+          env:
+            - name: PG_HOST
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: POSTGRES_HOST },
+                }
+            - name: PG_PORT
+              value: "5432"
+            - name: PG_SSLMODE
+              value: "require"
+            - name: PG_DRIVER
+              value: "postgres"
+            - name: PG_USER
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: POSTGRES_USER },
+                }
+            - name: PG_NAME
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: CHATBOX_SERVICE_DB_NAME },
+                }
+            - name: PG_PASSWORD
+              valueFrom:
+                {
+                  secretKeyRef:
+                    { name: platform-secrets, key: POSTGRES_PASSWORD },
+                }
+            - name: MYSQL_HOST
+              valueFrom:
+                { configMapKeyRef: { name: platform-config, key: MYSQL_HOST } }
+            - name: MYSQL_PORT
+              valueFrom:
+                { configMapKeyRef: { name: platform-config, key: MYSQL_PORT } }
+            - name: MYSQL_USER
+              valueFrom:
+                { configMapKeyRef: { name: platform-config, key: MYSQL_USER } }
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                {
+                  secretKeyRef: { name: platform-secrets, key: MYSQL_PASSWORD },
+                }
+            - name: MYSQL_NAME
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: MYSQL_DB_NAME },
+                }
+
+        # Container 2: Action Server chạy code Python tùy chỉnh
+        - name: rasa-action-server
+          image: duancntt.azurecr.io/rasa-action-server:v1
+          imagePullPolicy: Always
+          ports:
+            - name: webhook
+              containerPort: 5055
+          # Nếu Action Server cần kết nối CSDL, hãy thêm biến môi trường vào đây.
+          # Giả sử nó dùng PostgreSQL giống các service Go khác.
+          env:
+            - name: PG_HOST
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: POSTGRES_HOST },
+                }
+            - name: PG_PORT
+              value: "5432"
+            - name: PG_SSLMODE
+              value: "require"
+            - name: PG_DRIVER
+              value: "postgres"
+            - name: PG_USER
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: POSTGRES_USER },
+                }
+            - name: PG_NAME
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: CHATBOX_SERVICE_DB_NAME },
+                }
+            - name: PG_PASSWORD
+              valueFrom:
+                {
+                  secretKeyRef:
+                    { name: platform-secrets, key: POSTGRES_PASSWORD },
+                }
+            - name: MYSQL_HOST
+              valueFrom:
+                { configMapKeyRef: { name: platform-config, key: MYSQL_HOST } }
+            - name: MYSQL_PORT
+              valueFrom:
+                { configMapKeyRef: { name: platform-config, key: MYSQL_PORT } }
+            - name: MYSQL_USER
+              valueFrom:
+                { configMapKeyRef: { name: platform-config, key: MYSQL_USER } }
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                {
+                  secretKeyRef: { name: platform-secrets, key: MYSQL_PASSWORD },
+                }
+            - name: MYSQL_NAME
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: MYSQL_DB_NAME },
+                }
+
+---
+# --- Service để expose Rasa Server ra bên trong cluster ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chat-bot-service
+spec:
+  selector:
+    app: chat-bot-service # Phải khớp với label của Pod
+  ports:
+    # Chỉ expose port 5005 của Rasa Server, vì đây là cổng giao tiếp chính
+    - name: rasa-port
+      protocol: TCP
+      port: 5005
+      targetPort: 5005
+  type: ClusterIP

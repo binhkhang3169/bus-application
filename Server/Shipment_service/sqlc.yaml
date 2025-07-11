@@ -1,0 +1,33 @@
+version: "2"
+sql:
+  - engine: "postgresql"
+    # Path to your SQL queries
+    queries: "./db/query/query.sql"
+    # Path to your database schema (migration files)
+    schema: "./db/migrations"
+    gen:
+      go:
+        # Path where Go code will be generated
+        out: "./internal/db"
+        package: "db"
+        # sql_package: "pgx/v5" # Or "database/sql" if you prefer
+        emit_json_tags: true
+        emit_prepared_queries: false
+        emit_interface: true
+        emit_exact_table_names: false
+        emit_empty_slices: true
+        overrides:
+          - db_type: "timestamptz"
+            go_type: "time.Time"
+          - db_type: "timestamp"
+            go_type: "time.Time"
+          - db_type: "text" # For NVARCHAR, though PostgreSQL doesn't have NVARCHAR, it uses TEXT
+            go_type: "string"
+            nullable: true # if your NVARCHAR can be null
+          - db_type: "pg_catalog.numeric" # For DECIMAL
+            go_type: "float64" # Or use a custom decimal type like shopspring/decimal
+            # For shopspring/decimal:
+            # go_type:
+            #   import: "github.com/shopspring/decimal"
+            #   type: "Decimal"
+

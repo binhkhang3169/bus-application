@@ -1,0 +1,124 @@
+### 1. Golang ###
+# Binary files
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Vendor (nếu dùng go mod vendor)
+/vendor/
+
+# Go workspace
+/go.work
+/go.work.sum
+
+# IDE tools
+*.idea/
+*.vscode/
+*.swp
+
+# Coverage
+*.coverprofile
+
+### 2. Spring Boot (Java) ###
+# Build
+/target/
+/build/
+
+# IDEs
+/.classpath
+/.project
+/.settings/
+/.idea/
+/*.iml
+*.log
+/.rasa
+# Maven
+/logs/
+.mvn/
+!**/src/main/resources/static/
+!**/src/main/resources/public/
+!**/src/main/resources/templates/
+
+firebase_options.dart
+
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Others
+*.war
+*.jar
+*.ear
+*.db
+*.json
+### 3. React ###
+# Dependency
+/node_modules/
+
+# Build
+/build/
+/dist/
+
+# Testing
+/coverage/
+
+# Runtime
+.nyc_output/
+.env
+.env.*.local
+.next/
+out/
+env.js
+firebase.js
+# IDEs
+/.vscode/
+/.idea/
+
+### 4. Flutter ###
+# Build
+/build/
+/.flutter-plugins
+/.packages
+.dart_tool/
+/.pub/
+/android/app/*.keystore
+
+# Generated files
+flutter_export_environment.sh
+generated_plugin_registrant.dart
+
+# IDEs
+.idea/
+*.iml
+
+# Flutter specific
+pubspec.lock
+**/ios/Pods/
+**/ios/.symlinks/
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Flutter.podspec
+**/macos/Flutter/Flutter.podspec
+**/macos/Flutter/Flutter.framework
+
+### Optional: General ###
+# System
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Env
+.env
+.env.*
+
+# Temporary
+*.tmp
+*.bak
+*.swp
+*.swo

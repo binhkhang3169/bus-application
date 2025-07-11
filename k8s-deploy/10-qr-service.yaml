@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qr-service-deployment
+  labels:
+    app: qr-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qr-service
+  template:
+    metadata:
+      labels:
+        app: qr-service
+    spec:
+      containers:
+        - name: qr-service
+          image: duancntt.azurecr.io/qr-service:v1
+          ports:
+            - containerPort: 8090
+          env:
+            - name: PORT
+              value: "8090"
+            - name: KAFKA_SEEDS
+              valueFrom:
+                { configMapKeyRef: { name: platform-config, key: KAFKA_SEEDS } }
+            - name: KAFKA_ENABLE_TLS
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: KAFKA_ENABLE_TLS },
+                }
+            - name: KAFKA_TOPIC_ORDER_QR_REQUESTS
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    {
+                      name: platform-config,
+                      key: KAFKA_TOPIC_ORDER_QR_REQUESTS,
+                    },
+                }
+            - name: KAFKA_GROUP_ID_QR_ORDER
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: KAFKA_GROUP_ID_QR_ORDER },
+                }
+            - name: KAFKA_TOPIC_EMAIL_REQUESTS
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: KAFKA_TOPIC_EMAIL_REQUESTS },
+                }
+            - name: CLOUDINARY_URL
+              valueFrom:
+                {
+                  secretKeyRef: { name: platform-secrets, key: CLOUDINARY_URL },
+                }
+            - name: KAFKA_SASL_USER
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: KAFKA_SASL_USER },
+                }
+            - name: KAFKA_SASL_PASS
+              valueFrom:
+                {
+                  secretKeyRef:
+                    { name: platform-secrets, key: KAFKA_SASL_PASS },
+                }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: qr-service
+spec:
+  selector:
+    app: qr-service
+  ports:
+    - protocol: TCP
+      port: 8090
+      targetPort: 8090
+  type: ClusterIP

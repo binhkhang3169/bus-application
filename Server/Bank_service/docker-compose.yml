@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  bank_service:
+    container_name: bank_service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    # depends_on:
+    #   - postgres_bank
+    env_file:
+      - .env
+    # environment:
+    #   - DB_HOST=postgres_bank
+    #   - DB_PORT=5434
+    restart: unless-stopped
+
+  # postgres_bank:
+  #   container_name: postgres_bank
+  #   image: postgres:13
+  #   environment:
+  #     POSTGRES_USER: ${DB_USER}
+  #     POSTGRES_PASSWORD: ${DB_PASSWORD}
+  #     POSTGRES_DB: ${DB_NAME}
+  #   ports:
+  #     - "${DB_PORT}:5434"
+  #   command: -p 5434
+  #   volumes:
+  #     - postgres_bank_data:/var/lib/postgresql/data
+  #     - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  postgres_bank_data:

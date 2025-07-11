@@ -1,0 +1,110 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - check_ticket_status
+  - book_ticket
+  - cancel_ticket
+  - ask_bus_info
+  - ask_contact
+  - ask_price
+  - ask_pickup_dropoff
+  - ask_bus_type
+  - ask_travel_time
+  - ask_refund_policy
+  - ask_promotion
+  - ask_payment_status
+  - ask_luggage_policy
+  - ask_ticket_details
+
+entities:
+  - phone_number
+  - route
+  - time
+
+slots:
+  phone_number:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: phone_number
+      - type: from_text
+        intent: check_ticket_status
+        not_intent: []
+      - type: from_text
+        intent: ask_payment_status
+        not_intent: []
+      - type: from_text
+        intent: ask_ticket_details
+        not_intent: []
+  route:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: route
+      - type: from_text
+        intent: ask_price
+        not_intent: []
+      - type: from_text
+        intent: book_ticket
+        not_intent: []
+      - type: from_text
+        intent: ask_pickup_dropoff
+        not_intent: []
+      - type: from_text
+        intent: ask_bus_type
+        not_intent: []
+      - type: from_text
+        intent: ask_travel_time
+        not_intent: []
+  time:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: time
+      - type: from_text
+        intent: book_ticket
+        not_intent: []
+
+responses:
+  utter_greet:
+    - text: "Xin chào! Tôi có thể giúp gì cho bạn?"
+  utter_goodbye:
+    - text: "Tạm biệt! Chúc bạn một ngày tốt lành."
+  utter_ask_phone_number:
+    - text: "Bạn vui lòng cung cấp số điện thoại của bạn được không?"
+  utter_ask_route:
+    - text: "Bạn muốn đi tuyến xe nào?"
+  utter_ask_time:
+    - text: "Bạn muốn đi vào thời gian nào? Ví dụ: 9h sáng."
+  utter_ask_confirmation_cancel:
+    - text: "Bạn có chắc muốn hủy vé không?"
+  utter_iamabot:
+    - text: "Tôi là bot, tôi có thể giúp gì cho bạn?"
+  utter_refund_policy:
+    - text: "Chính sách hoàn vé: Bạn có thể hủy vé trước 24 giờ để được hoàn 80% giá vé. Vui lòng liên hệ 1900 1234 để biết thêm chi tiết."
+  utter_promotion:
+    - text: "Hiện tại có chương trình giảm giá 10% cho vé đặt trước 7 ngày. Vui lòng kiểm tra website hoặc liên hệ 1900 1234 để nhận mã giảm giá."
+  utter_luggage_policy:
+    - text: "Bạn được mang tối đa 20kg hành lý miễn phí. Hành lý vượt cân hoặc hàng hóa đặc biệt sẽ tính phí theo quy định. Liên hệ 1900 1234 để biết thêm."
+  utter_no_route_found:
+    - text: "Không tìm thấy lộ trình di chuyển bạn yêu cầu. Vui lòng thử lại với lộ trình khác"
+  utter_no_trip_found:
+    - text: "Không tìm thấy tuyến xe bạn yêu cầu. Vui lòng thử lại với tuyến khác"
+  utter_no_phone_number:
+    - text: "Vui lòng cung cấp số điện thoại để tôi kiểm tra thông tin."
+
+actions:
+  - action_check_ticket_status
+  - action_get_bus_info
+  - action_ask_contact
+  - action_ask_price
+  - action_ask_pickup_dropoff
+  - action_ask_bus_type
+  - action_ask_travel_time
+  - action_ask_payment_status
+  - action_ask_ticket_details

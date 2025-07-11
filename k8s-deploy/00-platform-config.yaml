@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: platform-config
+data:
+  # --- Cấu hình Dịch vụ Nền tảng (Thay bằng giá trị thật) ---
+  POSTGRES_HOST: 
+  POSTGRES_PORT: 
+  POSTGRES_USER: 
+  POSTGRES_SSLMODE: "require" # SSL mode cho kết nối tới NeonDB
+  KAFKA_SEEDS: 
+  KAFKA_ENABLE_TLS: "true"
+  KAFKA_SASL_USER: "duancntt"
+  MYSQL_USER_URL:
+  MYSQL_TRIP_URL: 
+  STRIPE_PUBLISHABLE_KEY:
+  STRIPE_WEBHOOK_SECRET: 
+  VNPAY_TMN_CODE: 
+  MYSQL_HOST: 
+  MYSQL_PORT: "56321"
+  MYSQL_USER: "root"
+  MYSQL_DB_NAME: "railway" # Tên database mặc định cho các servic
+  MYSQL_SSLMODE: "require" # SSL mode cho kết nối tới NeonDB
+  # --- Cấu hình Email ---
+  SMTP_SERVER: "smtp.gmail.com"
+  SMTP_PORT: "587"
+  SMTP_FROM: "Nhà xe Anh Phụng"
+
+  # --- Tên Database cho từng Service ---
+  USER_SERVICE_DB_NAME: "railway"
+  TRIP_SERVICE_DB_NAME: "railway"
+  PAYMENT_SERVICE_DB_NAME: "payment_service"
+  TICKET_SERVICE_DB_NAME: "ticket_service"
+  SHIP_SERVICE_DB_NAME: "shipment_service"
+  NOTIFICATION_SERVICE_DB_NAME: "noti_service"
+  BANK_SERVICE_DB_NAME: "bank_service"
+  NEWS_SERVICE_DB_NAME: "news_service" # Giả định
+  CHATBOX_SERVICE_DB_NAME: "trip_service" # Theo yêu cầu, chatbox dùng db 'trip_service'
+
+  # --- URLs cho API Gateway (Trỏ tới K8S Services) ---
+  API_GATEWAY_PORT: "8000"
+  TRIP_SERVICE_URL: "http://trip-service:8082"
+  USER_SERVICE_URL: "http://user-service:8081"
+  PAYMENT_SERVICE_URL: "http://payment-service:8083"
+  TICKET_SERVICE_URL: "http://ticket-service:8084"
+  EMAIL_SERVICE_URL: "http://email-service:8085"
+  BANK_SERVICE_URL: "http://bank-service:8086"
+  NEWS_SERVICE_URL: "http://news-service:8087"
+  SHIP_SERVICE_URL: "http://ship-service:8088"
+  NOTIFICATION_SERVICE_URL: "http://notification-service:8089"
+  QR_SERVICE_URL: "http://qr-service:8090"
+  CHAT_BOT_SERVICE_URL: "http://chat-bot-service:5005"
+  DASHBOARD_SERVICE_URL: "http://dashboard-service:8091"
+
+  # --- Cấu hình Kafka Topics & Group IDs ---
+  KAFKA_TOPIC_EMAIL_REQUESTS: "email_requests"
+  KAFKA_GROUP_ID_EMAIL: "email_service_group"
+  KAFKA_TOPIC_ORDER_QR_REQUESTS: "order_qr_requests"
+  KAFKA_GROUP_ID_QR_ORDER: "qr_service_order_group"
+  KAFKA_TOPIC_NOTIFICATIONS: "notifications_topic"
+  KAFKA_GROUP_ID_NOTIFICATIONS: "notification_service_group"
+  KAFKA_TOPIC_TRIP_CREATED: "trip_created"
+  KAFKA_GROUP_ID_TRIP_CREATED: "ticket_service_trip_group"
+  KAFKA_TOPIC_TICKET_STATUS: "ticket_status_updates"
+  KAFKA_GROUP_ID_TICKET_STATUS: "ticket_service_status_group"
+  KAFKA_TOPIC_BOOKING_REQUESTS: "booking_requests"
+  KAFKA_GROUP_ID_BOOKING_REQUESTS: "ticket_service_booking_group"
+  KAFKA_TOPIC_SEATS_RESERVED: "seats_reserved"
+  KAFKA_TOPIC_SEATS_RELEASED: "seats_released"
+  KAFKA_TOPIC_PAYMENT: "ticket_status_updates"

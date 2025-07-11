@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  news_service:
+    container_name: news_service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    # depends_on:
+    #   - postgres_news
+    env_file:
+      - .env
+    # environment:
+    #   - DB_HOST=postgres_news
+    #   - DB_PORT=5435
+    restart: unless-stopped
+
+  # postgres_news:
+  #   container_name: postgres_news
+  #   image: postgres:13
+  #   environment:
+  #     POSTGRES_USER: ${DB_USER}
+  #     POSTGRES_PASSWORD: ${DB_PASSWORD}
+  #     POSTGRES_DB: ${DB_NAME}
+  #   ports:
+  #     - "${DB_PORT}:5435"
+  #   command: -p 5435
+  #   volumes:
+  #     - postgres_news_data:/var/lib/postgresql/data
+  #     - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  postgres_news_data:

@@ -1,0 +1,65 @@
+version: "3.1"
+
+stories:
+  - story: greet and goodbye
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: goodbye
+      - action: utter_goodbye
+  - story: check ticket flow
+    steps:
+      - intent: check_ticket_status
+      - action: action_check_ticket_status
+  - story: ask bus info flow
+    steps:
+      - intent: ask_bus_info
+      - action: action_get_bus_info
+  - story: ask contact flow
+    steps:
+      - intent: ask_contact
+      - action: action_ask_contact
+  - story: ask price flow
+    steps:
+      - intent: ask_price
+      - action: action_ask_price
+  - story: ask price missing route
+    steps:
+      - intent: ask_price
+      - slot_was_set:
+          - route: null
+      - action: utter_ask_route
+      - intent: ask_price
+      - action: action_ask_price
+  - story: ask pickup dropoff flow
+    steps:
+      - intent: ask_pickup_dropoff
+      - action: action_ask_pickup_dropoff
+  - story: ask bus type flow
+    steps:
+      - intent: ask_bus_type
+      - action: action_ask_bus_type
+  - story: ask travel time flow
+    steps:
+      - intent: ask_travel_time
+      - action: action_ask_travel_time
+  - story: ask refund policy flow
+    steps:
+      - intent: ask_refund_policy
+      - action: utter_refund_policy
+  - story: ask promotion flow
+    steps:
+      - intent: ask_promotion
+      - action: utter_promotion
+  - story: ask payment status flow
+    steps:
+      - intent: ask_payment_status
+      - action: action_ask_payment_status
+  - story: ask luggage policy flow
+    steps:
+      - intent: ask_luggage_policy
+      - action: utter_luggage_policy
+  - story: ask ticket details flow
+    steps:
+      - intent: ask_ticket_details
+      - action: action_ask_ticket_details

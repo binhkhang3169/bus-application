@@ -1,0 +1,595 @@
+version: "3.1"
+
+nlu:
+  - intent: greet
+    examples: |
+      - xin chào
+      - chào bạn
+      - hello
+      - hi
+      - chào anh/chị
+      - mình chào bạn
+      - cho mình hỏi chút
+      - có ai ở đó không
+      - alo
+      - bạn ơi
+      - cho hỏi chút được không
+      - mình cần hỏi thông tin
+      - có thể giúp mình không
+      - chào buổi sáng
+      - chào buổi tối
+      - chào mọi người
+      - em chào anh/chị
+      - anh/chị ơi
+      - chào cả nhà
+      - chào bạn nhé
+      - xin chào, mình cần hỗ trợ
+      - chào, bạn khỏe không
+      - alo alo, có ai không
+      - chào, mình muốn hỏi chút
+      - bạn gì ơi, giúp mình nhé
+      - chào, mình mới vào đây
+      - xin chào, mình cần tư vấn
+      - chào bạn, mình muốn hỏi vé
+      - alo, bạn có rảnh không
+      - chào, mình cần hỏi về xe
+      - chào buổi trưa
+      - chào, mình muốn hỏi nhanh
+      - chào bạn, có thể giúp gì không
+
+  - intent: goodbye
+    examples: |
+      - tạm biệt
+      - hẹn gặp lại
+      - bye
+      - chào tạm biệt
+      - mình đi đây
+      - gặp lại sau nhé
+      - chúc bạn một ngày tốt lành
+      - cảm ơn nhé, mình thoát đây
+      - mình out nhé
+      - tạm biệt mọi người
+      - hẹn gặp lại lần sau
+      - chúc bạn ngủ ngon
+      - chúc bạn cuối tuần vui vẻ
+      - mình xin phép dừng tại đây
+      - thôi mình không hỏi nữa
+      - cảm ơn bạn nhiều, bye nhé
+      - chào, mình đi đây
+      - mình cúp máy đây nhé
+      - cảm ơn và tạm biệt
+      - chúc bạn buổi tối vui vẻ
+      - mình dừng ở đây nhé
+      - hẹn mai gặp lại
+      - cảm ơn bạn, mình đi nha
+      - bye bye, gặp sau
+      - chúc bạn ngày mới vui
+      - mình xin phép đi đây
+      - tạm biệt, cảm ơn nhiều
+      - chào nhé, mình thoát
+      - gặp lại bạn sau
+      - mình đi công việc đây
+      - cảm ơn, chào tạm biệt
+
+  - intent: check_ticket_status
+    examples: |
+      - tra cứu vé với số điện thoại [0912345678](phone_number)
+      - kiểm tra vé của tôi với số điện thoại [0987654321](phone_number)
+      - tôi muốn tra cứu vé qua số điện thoại [0909090909](phone_number)
+      - tra vé số [0935123456](phone_number)
+      - trạng thái vé với số [0978123456](phone_number)
+      - kiểm tra tình trạng vé giúp tôi với số [0911222333](phone_number)
+      - cho tôi biết vé của tôi với số [0999888777](phone_number)
+      - vé đặt bằng số [0900123456](phone_number) còn không
+      - kiểm tra vé đặt bằng số điện thoại này: [0912345678](phone_number)
+      - mình muốn biết vé đặt bằng số [0988001122](phone_number)
+      - số điện thoại [0911222333](phone_number) có vé không
+      - kiểm tra hộ vé số [0909090909](phone_number)
+      - tra cứu trạng thái vé
+      - vé của mình còn hiệu lực không
+      - kiểm tra giúp mình vé đã đặt chưa
+      - mình có đặt vé không nhỉ
+      - kiểm tra vé hộ mình với
+      - vé của mình đặt hôm qua thế nào rồi
+      - tra cứu vé bằng số điện thoại này nhé
+      - vé của mình đã xác nhận chưa
+      - kiểm tra vé đi [Hà Nội - Đà Nẵng](route) nhé
+      - mình đặt vé hôm trước, kiểm tra giúp
+      - vé của mình có bị hủy không
+      - kiểm tra trạng thái vé mới nhất
+      - vé số [0945678901](phone_number) còn không
+      - mình muốn xem vé còn hay hết
+      - kiểm tra vé đặt qua app được không
+      - vé của mình đã được giữ chỗ chưa
+      - tra cứu vé bằng số [0933445566](phone_number)
+      - mình muốn biết trạng thái vé của mình
+      - vé của mình có được xác nhận chưa
+      - kiểm tra vé đặt online giúp mình
+      - mình cần biết vé có hợp lệ không
+
+  - intent: book_ticket
+    examples: |
+      - tôi muốn đặt vé
+      - đặt vé tuyến [Hà Nội - Đà Nẵng](route) vào lúc [9h sáng](time)
+      - đặt vé cho tôi
+      - mình muốn mua vé
+      - cho mình đặt vé đi [Sài Gòn - Vũng Tàu](route)
+      - mình cần đặt vé xe
+      - book vé tuyến [Hà Nội - Hải Phòng](route)
+      - đặt vé lúc [8h tối](time)
+      - mình muốn mua vé xe khách
+      - đặt vé đi [Hà Nội - Huế](route) ngày mai
+      - cho mình 2 vé đi [Sài Gòn - Đà Lạt](route)
+      - mình muốn đặt vé cho 3 người
+      - mua vé xe đi [TP.HCM - Cần Thơ](route)
+      - mình muốn giữ chỗ
+      - đặt vé khứ hồi
+      - mình muốn đặt vé online
+      - có thể đặt vé giúp mình không
+      - đặt vé xe đi [Hà Nội - Sapa](route) tuần tới
+      - mình muốn đặt vé sớm
+      - đặt vé cho ngày [20/10/2025](time)
+      - mình cần vé đi [Hà Nội - Nha Trang](route)
+      - đặt vé cho nhóm 5 người
+      - mình muốn vé giường nằm
+      - đặt vé ghế ngồi tuyến [Sài Gòn - Cần Thơ](route)
+      - đặt vé trước cho ngày mai
+      - mình cần vé đi ngay hôm nay
+      - đặt vé nhanh giúp mình nhé
+      - mình muốn đặt vé qua app
+      - đặt vé khứ hồi [Hà Nội - Đà Lạt](route)
+      - đặt vé cho trẻ em
+      - mình muốn đặt vé VIP
+      - đặt vé đi [Sài Gòn - Phú Quốc](route)
+      - đặt vé sớm có được giảm giá không
+      - mình muốn đặt vé qua số điện thoại
+      - đặt vé xe đêm giúp mình
+      - mình cần vé đi [Hà Nội - Quảng Ninh](route)
+
+  - intent: cancel_ticket
+    examples: |
+      - hủy vé của tôi
+      - tôi muốn hủy vé
+      - hủy vé với số điện thoại [0123456789](phone_number)
+      - mình muốn bỏ vé
+      - cho mình hủy vé đã đặt
+      - hủy vé đặt bằng số [0912345678](phone_number)
+      - mình không đi nữa, hủy vé giúp mình
+      - mình muốn trả lại vé
+      - mình muốn đổi vé sang ngày khác
+      - mình lỡ đặt nhầm, hủy giúp mình
+      - mình không đi được nữa
+      - hủy vé đi [Hà Nội - Đà Nẵng](route)
+      - mình muốn hoàn vé
+      - mình muốn hủy vé online
+      - có thể hủy vé giúp mình không
+      - hủy vé đặt hôm qua nhé
+      - mình muốn hủy vé đi [Sài Gòn - Vũng Tàu](route)
+      - hủy vé với mã đặt vé này
+      - mình đặt vé nhầm giờ, hủy giúp
+      - hủy vé số [0987654321](phone_number)
+      - mình muốn hủy 1 vé trong nhóm
+      - hủy vé đi [Hà Nội - Hải Phòng](route)
+      - mình cần hủy vé gấp
+      - hủy vé và hoàn tiền giúp mình
+      - mình đặt vé qua app, hủy được không
+      - hủy vé khứ hồi giúp mình
+      - mình muốn hủy vé sớm
+      - hủy vé vì mình đổi kế hoạch
+      - hủy vé do nhầm ngày
+      - hủy vé và đổi sang tuyến khác
+      - mình muốn hủy vé đặt bằng số [0909090909](phone_number)
+      - hủy vé trước giờ xe chạy được không
+      - mình cần hủy vé ngay bây giờ
+
+  - intent: ask_bus_info
+    examples: |
+      - cho tôi biết thông tin các chuyến xe
+      - có chuyến xe nào không
+      - hiện tại có chuyến xe nào
+      - lịch trình xe hôm nay thế nào
+      - các tuyến xe đang chạy là gì
+      - có xe nào đi [Hà Nội - Đà Nẵng](route) không
+      - xe xuất phát lúc mấy giờ
+      - hôm nay có xe đi [Sài Gòn - Vũng Tàu](route) không
+      - xe chạy những khung giờ nào
+      - có xe đêm không
+      - xe cuối cùng trong ngày là mấy giờ
+      - xe chạy liên tục không
+      - có xe nào chạy sáng sớm không
+      - xe có chạy ngày lễ không
+      - hỏi thông tin các tuyến xe
+      - lịch xe chạy hôm nay
+      - xe có chạy cuối tuần không
+      - có chuyến nào đi [Hà Nội - Sapa](route) không
+      - xe chạy từ bến nào
+      - xe có chuyến sáng mai không
+      - lịch xe đi [TP.HCM - Cần Thơ](route)
+      - có xe nào đi sớm không
+      - xe có chạy vào tối thứ 7 không
+      - hỏi lịch xe ngày [20/10/2025](time)
+      - xe có chuyến đêm hôm nay không
+      - có xe đi [Hà Nội - Huế](route) vào [8h sáng](time) không
+      - thông tin xe chạy hôm nay
+      - xe có chạy vào dịp Tết không
+      - có chuyến nào đi [Sài Gòn - Đà Lạt](route) hôm nay
+      - lịch xe chạy ngày mai
+      - xe có chạy vào buổi trưa không
+      - có chuyến nào đi ngay bây giờ không
+      - xe có chạy tuyến [Hà Nội - Quảng Ninh](route) không
+      - hỏi lịch trình xe chi tiết
+
+  - intent: ask_contact
+    examples: |
+      - làm sao để liên hệ nhà xe
+      - cho tôi số điện thoại nhà xe
+      - số điện thoại hỗ trợ
+      - liên hệ tổng đài như thế nào
+      - hotline nhà xe là gì
+      - có thể gọi cho ai để hỏi thông tin
+      - số điện thoại đặt vé
+      - liên hệ với tài xế được không
+      - có email hỗ trợ không
+      - số điện thoại chăm sóc khách hàng
+      - liên hệ qua zalo được không
+      - có facebook nhà xe không
+      - số điện thoại phòng vé
+      - hỏi số điện thoại tổng đài
+      - liên hệ ngoài giờ hành chính thế nào
+      - số điện thoại nhà xe [Hà Nội - Đà Nẵng](route)
+      - liên hệ với ai để hủy vé
+      - số tổng đài hỗ trợ khách hàng
+      - nhà xe có zalo chính thức không
+      - liên hệ qua tin nhắn được không
+      - số điện thoại bến xe là gì
+      - có số hotline đặt vé không
+      - liên hệ để hỏi lịch xe được không
+      - nhà xe có hỗ trợ qua email không
+      - liên hệ qua app được không
+      - có số điện thoại tài xế không
+      - số liên hệ của nhà xe ở [Sài Gòn](route)
+      - hỏi thông tin qua đâu nhanh nhất
+      - nhà xe có hỗ trợ qua messenger không
+      - liên hệ để kiểm tra vé được không
+      - số điện thoại hỗ trợ 24/7 là gì
+      - có thể gọi trực tiếp cho nhà xe không
+
+  - intent: ask_price
+    examples: |
+      - giá vé tuyến [Hà Nội - Đà Nẵng](route) bao nhiêu
+      - vé đi tuyến [Sài Gòn - Vũng Tàu](route) giá bao nhiêu
+      - giá vé đi [Hà Nội - Hải Phòng](route) là bao nhiêu
+      - bao nhiêu tiền vé tuyến [Sài Gòn - Đà Lạt](route)
+      - vé tuyến [TP.HCM - Cần Thơ](route) giá bao nhiêu
+      - tuyến [Hà Nội - Đà Nẵng](route) có giá bao nhiu
+      - giá vé đi [Hà Nội - Huế](route)
+      - giá vé từ [Hà Nội - Sapa](route)
+      - vé [Hà Nội - Nha Trang](route) bao nhiêu tiền
+      - giá vé tuyến [Hà Nội - Đà Nẵng](route) là bao nhiêu tiền
+      - vé xe đi [Hà Nội - Đà Nẵng](route) bao nhiêu một người
+      - cho mình hỏi giá vé tuyến [Sài Gòn - Đà Lạt](route)
+      - vé trẻ em tuyến [Hà Nội - Hải Phòng](route) giá bao nhiêu
+      - giá vé khứ hồi tuyến [TP.HCM - Cần Thơ](route)
+      - giá vé người lớn và trẻ em khác nhau không
+      - vé xe có giảm giá không
+      - giá vé ngày lễ có tăng không
+      - vé xe có khuyến mãi không
+      - giá vé thấp nhất là bao nhiêu
+      - vé xe có bao gồm nước uống không
+      - giá vé đã bao gồm bảo hiểm chưa
+      - vé xe có hoàn tiền không
+      - giá vé đặt online khác gì tại bến
+      - vé xe có phụ thu gì không
+      - giá vé xe giường nằm bao nhiêu
+      - vé ghế ngồi giá bao nhiêu
+      - giá vé VIP tuyến [Hà Nội - Sapa](route)
+      - giá vé xe đêm có khác không
+      - vé khứ hồi có rẻ hơn không
+      - giá vé dịp Tết bao nhiêu
+      - vé trẻ em dưới 5 tuổi giá thế nào
+      - giá vé nhóm đông có giảm không
+      - vé xe có bao gồm phí cầu đường không
+      - giá vé có thay đổi theo giờ không
+      - vé xe có giảm cho người cao tuổi không
+      - giá vé online có rẻ hơn không
+      - vé xe có tính phí hành lý không
+      - giá vé có bao gồm thuế không
+
+  - intent: ask_pickup_dropoff
+    examples: |
+      - chuyến xe từ [Hà Nội - Đà Nẵng](route) có dừng ở đâu
+      - điểm đón khách tại [Sài Gòn - Vũng Tàu](route) là gì
+      - xe trả khách ở [Hà Nội - Hải Phòng](route) chỗ nào
+      - điểm đón ở [TP.HCM - Cần Thơ](route) là đâu
+      - xe đón ở bến nào
+      - điểm trả khách cuối cùng ở đâu
+      - xe có dừng ở [Huế](route) không
+      - xe có đón ở sân bay không
+      - xe có trả khách tại khách sạn không
+      - điểm đón gần nhất ở đâu
+      - xe có đón ở nhà không
+      - xe có trả khách ở bến xe không
+      - xe có dừng ở trạm dừng nghỉ không
+      - xe có đón khách dọc đường không
+      - xe có trả khách ở trung tâm thành phố không
+      - xe có đón ở bệnh viện không
+      - điểm đón ở [Hà Nội](route) là bến nào
+      - xe có trả khách ở [Đà Lạt](route) trung tâm không
+      - xe có đón ở bến xe Miền Đông không
+      - điểm trả khách ở [Hải Phòng](route) là đâu
+      - xe có dừng ở [Nha Trang](route) không
+      - xe có đón ở [Sân bay Nội Bài](route) không
+      - xe có trả khách gần [Bãi Cháy](route) không
+      - điểm đón ở [Sài Gòn](route) cụ thể là đâu
+      - xe có dừng ở trạm nghỉ [Phú Yên](route) không
+      - xe có đón ở [Quận 1](route) không
+      - xe có trả khách ở bến xe [Cần Thơ](route) không
+      - xe có đón ở trường học không
+      - xe có dừng ở [Đà Nẵng](route) trung tâm không
+      - xe có đón ở [Bến xe Giáp Bát](route) không
+      - điểm trả khách gần [Hội An](route) không
+      - xe có đón ở [Sân bay Tân Sơn Nhất](route) không
+      - xe có trả khách ở [Vũng Tàu](route) bãi sau không
+
+  - intent: ask_bus_type
+    examples: |
+      - xe tuyến [Hà Nội - Huế](route) là xe gì
+      - chuyến xe [Sài Gòn - Vũng Tàu](route) là giường nằm hay ghế ngồi
+      - xe đi [Hà Nội - Hải Phòng](route) có wifi không
+      - tiện nghi trên xe tuyến [Sài Gòn - Đà Lạt](route) là gì
+      - xe từ [Hà Nội - Sapa](route) là loại gì
+      - xe tuyến [Hà Nội - Đà Nẵng](route) là xe gì
+      - xe có điều hòa không
+      - xe có nhà vệ sinh không
+      - xe có ổ sạc điện thoại không
+      - xe có tivi không
+      - xe có phục vụ nước uống không
+      - xe có chăn không
+      - xe có ghế massage không
+      - xe có wifi miễn phí không
+      - xe có rèm cửa không
+      - xe có ổ cắm điện không
+      - xe có phục vụ ăn nhẹ không
+      - xe có camera không
+      - xe tuyến [Hà Nội - Nha Trang](route) là xe mấy chỗ
+      - xe có giường nằm VIP không
+      - xe có màn hình giải trí không
+      - xe có ghế ngả được không
+      - xe có hỗ trợ tai nghe không
+      - xe có khoang riêng không
+      - xe có hệ thống giảm xóc tốt không
+      - xe có phục vụ khăn lạnh không
+      - xe có hệ thống điều hòa hai chiều không
+      - xe có chỗ để hành lý dưới gầm không
+      - xe có hỗ trợ trẻ em không
+      - xe có ghế dành cho người khuyết tật không
+      - xe có mùi thơm không
+      - xe có hệ thống âm thanh không
+      - xe có đèn đọc sách không
+      - xe có hỗ trợ ghế trẻ em không
+      - xe có hệ thống an toàn như dây đai không
+
+  - intent: ask_travel_time
+    examples: |
+      - từ [Sài Gòn - Đà Lạt](route) mất bao lâu
+      - thời gian đi từ [Hà Nội - Hải Phòng](route)
+      - xe chạy từ [TP.HCM - Cần Thơ](route) bao lâu
+      - đi [Hà Nội - Đà Nẵng](route) hết mấy tiếng
+      - xe chạy mất bao nhiêu thời gian
+      - thời gian di chuyển tuyến [Sài Gòn - Vũng Tàu](route)
+      - đi [Sài Gòn - Vũng Tàu](route) khoảng mấy tiếng
+      - xe chạy nhanh nhất mất bao lâu
+      - thời gian xe chạy là bao lâu
+      - xe đi [Hà Nội - Sapa](route) mất mấy giờ
+      - xe có dừng nghỉ không, tổng thời gian bao lâu
+      - đi [TP.HCM - Cần Thơ](route) hết bao nhiêu phút
+      - xe chạy liên tục mất bao lâu
+      - thời gian dự kiến xe đến nơi
+      - xe có hay bị trễ không
+      - xe đi đêm mất bao lâu
+      - xe chạy ban ngày nhanh hơn không
+      - đi [Hà Nội - Huế](route) mất bao lâu
+      - thời gian đi [Hà Nội - Quảng Ninh](route)
+      - xe từ [Sài Gòn - Phú Quốc](route) bao lâu
+      - đi [Hà Nội - Nha Trang](route) hết mấy tiếng
+      - xe chạy tuyến [Hà Nội - Đà Lạt](route) bao lâu
+      - thời gian đi từ [Sài Gòn - Cần Thơ](route) là bao lâu
+      - xe có dừng nghỉ ở [Huế](route) không, mất bao lâu
+      - xe đi [Hà Nội - Hải Phòng](route) có nhanh không
+      - thời gian dự kiến đến [Đà Nẵng](route)
+      - xe đi [Sài Gòn - Vũng Tàu](route) có bị trễ không
+      - đi [Hà Nội - Sapa](route) bao gồm nghỉ ngơi bao lâu
+      - thời gian đi đêm có nhanh hơn không
+      - xe chạy [TP.HCM - Cần Thơ](route) mất bao lâu vào ban ngày
+      - xe có dừng lâu ở trạm nghỉ không
+      - thời gian đi [Hà Nội - Đà Nẵng](route) có thay đổi không
+      - xe chạy nhanh hay chậm
+
+  - intent: ask_refund_policy
+    examples: |
+      - hủy vé có được hoàn tiền không
+      - phí hủy vé là bao nhiêu
+      - đổi ngày đi của vé được không
+      - hoàn tiền khi hủy vé như thế nào
+      - chính sách hoàn vé ra sao
+      - có được đổi vé không
+      - hoàn tiền vé mất bao lâu
+      - phí đổi vé là bao nhiêu
+      - có hoàn tiền khi đổi vé không
+      - hoàn tiền vé online như thế nào
+      - đổi vé sang ngày khác có mất phí không
+      - hoàn tiền vé trả tại bến được không
+      - chính sách đổi vé
+      - hoàn tiền vé khi xe không chạy
+      - hoàn tiền vé khi khách không đi
+      - hủy vé trước bao lâu thì được hoàn tiền
+      - hoàn tiền vé có mất phí không
+      - đổi vé sang giờ khác được không
+      - chính sách hoàn vé khi hủy online
+      - hoàn tiền vé qua ngân hàng mất bao lâu
+      - đổi vé sang tuyến khác có được không
+      - hoàn tiền vé có cần giấy tờ không
+      - hủy vé sớm có được hoàn 100% không
+      - chính sách hoàn vé ngày lễ thế nào
+      - đổi vé cho người khác được không
+      - hoàn tiền vé có cần mã vé không
+      - hủy vé qua app có được hoàn tiền không
+      - hoàn tiền vé có cần gặp trực tiếp không
+      - đổi vé có cần trả thêm phí không
+      - hoàn tiền vé khi xe bị hủy chuyến
+      - chính sách hoàn vé cho khách VIP
+      - hoàn tiền vé qua ví điện tử được không
+
+  - intent: ask_promotion
+    examples: |
+      - có chương trình giảm giá nào không
+      - vé trẻ em có giảm giá không
+      - làm sao để nhận mã giảm giá
+      - có khuyến mãi gì không
+      - chương trình ưu đãi hiện tại là gì
+      - có mã giảm giá cho khách mới không
+      - vé người già có giảm giá không
+      - có ưu đãi cho nhóm đông không
+      - mã giảm giá nhập ở đâu
+      - có chương trình tích điểm không
+      - có giảm giá cho sinh viên không
+      - có ưu đãi dịp lễ không
+      - vé xe có giảm giá online không
+      - có chương trình tặng quà không
+      - có giảm giá cho khách quen không
+      - có khuyến mãi cho vé khứ hồi không
+      - giảm giá cho khách đặt sớm được không
+      - có ưu đãi cho vé đặt qua app không
+      - mã giảm giá có áp dụng cho ngày lễ không
+      - có chương trình giảm giá cho học sinh không
+      - khuyến mãi cho khách đặt vé online
+      - có chương trình tặng vé miễn phí không
+      - giảm giá vé cho người khuyết tật không
+      - có ưu đãi cho khách hàng thân thiết không
+      - mã giảm giá có thời hạn bao lâu
+      - có chương trình giảm giá dịp Tết không
+      - ưu đãi khi đặt vé nhóm 10 người
+      - có giảm giá cho vé đặt trước 1 tuần không
+      - khuyến mãi vé xe VIP thế nào
+      - có chương trình hoàn tiền khi đặt vé không
+      - giảm giá vé cho khách hàng lần đầu không
+      - có mã giảm giá qua zalo không
+
+  - intent: ask_payment_status
+    examples: |
+      - tôi đã thanh toán vé chưa
+      - kiểm tra trạng thái thanh toán với số điện thoại [0987654321](phone_number)
+      - vé của tôi đã được thanh toán chưa
+      - mình đã trả tiền vé chưa
+      - kiểm tra giúp mình vé đã thanh toán chưa
+      - vé đặt bằng số [0912345678](phone_number) đã thanh toán chưa
+      - mình đã chuyển khoản rồi, kiểm tra giúp
+      - mình chưa thấy xác nhận thanh toán
+      - kiểm tra trạng thái thanh toán hộ mình
+      - vé của mình đã thanh toán thành công chưa
+      - mình đã trả tiền mặt rồi
+      - mình muốn biết vé đã thanh toán chưa
+      - kiểm tra vé đã thanh toán online chưa
+      - mình đã thanh toán qua app
+      - mình đã trả tiền qua ngân hàng
+      - kiểm tra thanh toán vé số [0935123456](phone_number)
+      - mình đã thanh toán qua ví Momo
+      - vé của mình có được xác nhận thanh toán chưa
+      - mình thanh toán rồi mà chưa thấy thông báo
+      - kiểm tra xem mình đã trả tiền vé chưa
+      - mình đã thanh toán qua ZaloPay
+      - trạng thái thanh toán vé online thế nào
+      - mình thanh toán tại bến xe rồi
+      - kiểm tra vé đã thanh toán qua số [0909090909](phone_number)
+      - mình đã trả tiền vé qua thẻ
+      - vé của mình thanh toán chưa hoàn tất
+      - kiểm tra trạng thái thanh toán qua app
+      - mình đã chuyển khoản ngân hàng rồi
+      - thanh toán vé có bị lỗi không
+      - mình muốn xác nhận thanh toán vé
+      - vé của mình đã được thanh toán đầy đủ chưa
+      - kiểm tra xem vé đã được thanh toán hôm qua chưa
+
+  - intent: ask_luggage_policy
+    examples: |
+      - mang được bao nhiêu kg hành lý
+      - phí gửi hàng hóa là bao nhiêu
+      - mang xe đạp lên xe được không
+      - gửi hành lý cồng kềnh có được không
+      - có tính phí hành lý không
+      - xe có nhận gửi hàng hóa không
+      - hành lý quá cân có bị phạt không
+      - gửi xe máy theo xe được không
+      - hành lý có được bảo hiểm không
+      - xe có nhận gửi thú cưng không
+      - gửi hàng hóa đi tỉnh được không
+      - phí gửi xe máy là bao nhiêu
+      - hành lý có giới hạn kích thước không
+      - xe có nhận chuyển phát nhanh không
+      - gửi vali lớn có được không
+      - xe có nhận gửi đồ lạnh không
+      - mang bao nhiêu hành lý miễn phí
+      - gửi đồ nặng có tính phí thêm không
+      - xe có nhận gửi hàng dễ vỡ không
+      - gửi thú cưng có cần lồng không
+      - hành lý quá khổ có được mang không
+      - phí gửi hàng hóa cồng kềnh là bao nhiêu
+      - xe có khoang chứa hành lý riêng không
+      - gửi xe đạp điện được không
+      - mang hành lý lên cabin được không
+      - gửi hàng hóa qua đêm có được không
+      - hành lý có cần đóng gói không
+      - gửi đồ có cần khai báo nội dung không
+      - xe có nhận gửi đồ giá trị cao không
+      - gửi hàng hóa có cần ký nhận không
+      - hành lý có giới hạn số lượng không
+      - gửi đồ đi [Hà Nội - Đà Nẵng](route) được không
+
+  - intent: ask_ticket_details
+    examples: |
+      - vé của tôi có số ghế nào
+      - cho tôi xem thông tin vé với số điện thoại [0987654321](phone_number)
+      - thông tin chi tiết vé của tôi
+      - vé của mình có những thông tin gì
+      - kiểm tra chi tiết vé giúp mình
+      - vé đặt bằng số [0912345678](phone_number) có thông tin gì
+      - vé của mình số ghế bao nhiêu
+      - vé có ghi rõ giờ đi không
+      - vé có mã QR không
+      - vé của mình có hợp lệ không
+      - kiểm tra thông tin vé đã đặt
+      - vé có ghi rõ điểm đón không
+      - vé có ghi rõ điểm trả không
+      - vé có ghi rõ tên khách không
+      - vé có ghi rõ số điện thoại không
+      - vé có ghi rõ giá tiền không
+      - vé có ghi rõ tuyến đường không
+      - vé có ghi rõ ngày đi không
+      - vé có ghi rõ thời gian không
+      - vé có ghi rõ loại xe không
+      - vé có ghi rõ trạng thái thanh toán không
+      - vé của mình có mã vé không
+      - kiểm tra vé đi [Hà Nội - Đà Nẵng](route)
+      - vé có ghi số điện thoại liên hệ không
+      - vé có ghi rõ bến xe không
+      - vé có ghi rõ tên nhà xe không
+      - vé có hiển thị giờ đến không
+      - vé có ghi rõ điểm dừng nghỉ không
+      - vé của mình có phải vé VIP không
+      - kiểm tra vé đặt qua số [0909090909](phone_number)
+      - vé có ghi rõ số lượng khách không
+      - vé có ghi rõ thời gian xuất bến không
+      - vé có hiển thị thông tin tài xế không
+      - vé có ghi rõ loại ghế không
+      - vé có thông tin liên hệ nhà xe không
+      - vé có hiển thị mã đặt chỗ không
+      - vé có ghi rõ thời gian đặt vé không
+      - vé có hiển thị thông tin hành lý không
+
+regex_features:
+  - name: phone_number
+    pattern: "\\b0\\d{9,10}\\b"
+  - name: route
+    pattern: "\\b[A-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝĂĐĨŨƠƯ][a-zàáâãèéêìíòóôõùúýăđĩũơư]+\\s*-\\s*[A-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝĂĐĨŨƠƯ][a-zàáâãèéêìíòóôõùúýăđĩũơư]+\\b"
+  - name: time
+    pattern: "\\b\\d{1,2}[h:][0-5][0-9]?\\s*(sáng|chiều|tối)?\\b"

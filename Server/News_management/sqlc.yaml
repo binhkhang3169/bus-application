@@ -1,0 +1,48 @@
+version: "2"
+sql:
+  - engine: "postgresql"
+    # Path to your SQL queries
+    queries: "./db/query/query.sql"
+    # Path to your database schema (migration files)
+    schema: "./db/migrations"
+    gen:
+      go:
+        # Path where Go code will be generated
+        out: "./internal/db"
+        package: "db"
+        # sql_package: "pgx/v5" # Or "database/sql" if you prefer
+        emit_json_tags: true
+        emit_prepared_queries: false
+        emit_interface: true
+        emit_exact_table_names: false
+        emit_empty_slices: true
+        overrides:
+          - db_type: "timestamptz"
+            go_type: "time.Time"
+          - db_type: "timestamp"
+            go_type: "time.Time"
+          - db_type: "text" # For NVARCHAR, though PostgreSQL doesn't have NVARCHAR, it uses TEXT
+            go_type: "string"
+            nullable: true # if your NVARCHAR can be null
+          - db_type: "pg_catalog.numeric" # For DECIMAL
+            go_type: "float64" # Or use a custom decimal type like shopspring/decimal
+            # For shopspring/decimal:
+            # go_type:
+            #   import: "github.com/shopspring/decimal"
+            #   type: "Decimal"
+
+# If you use pgx/v5, ensure your Go code uses pgxpool or similar.
+# If you use database/sql, sqlc generates code compatible with the standard library's sql.DB.
+# I'm opting for the default which often works well with pgx/v4 or pgx/v5 if you manage the *sql.DB to pgx.Conn/Pool adaptation.
+# For pgx/v5 directly, you might need to set sql_package: "pgx/v5" and ensure your db connection setup matches.
+# Given your existing code uses pgx/v4/pgxpool, the default (or sql_package: "pgx/v4") is suitable.
+# Let's assume you'll adapt to pgx/v5 or keep pgx/v4 for now.
+# If using pgx/v4, you might set sql_package: "pgx/v4"
+# For now, I'll leave sql_package commented to use sqlc's default which is often `database/sql` compatible,
+# but you'll likely want to align it with `pgx/v4` or `pgx/v5`.
+# If your project uses pgx/v4, you'd typically use sql_package: "pgx/v4".
+# Let's assume you'll use pgx/v5 for future-proofing if starting fresh with sqlc.
+# If you are using pgx/v4 in your existing code, set:
+# sql_package: "pgx/v4"
+# emit_db_tags: true # if you want db:`column_name` tags
+# emit_empty_slices: true

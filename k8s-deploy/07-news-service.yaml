@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: news-service-deployment
+  labels:
+    app: news-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: news-service
+  template:
+    metadata:
+      labels:
+        app: news-service
+    spec:
+      containers:
+        - name: news-service
+          image: duancntt.azurecr.io/news-service:v1
+          ports:
+            - containerPort: 8087
+          env:
+            - name: DB_HOST
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: POSTGRES_HOST },
+                }
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_USER
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: POSTGRES_USER },
+                }
+            - name: DB_PASSWORD
+              valueFrom:
+                {
+                  secretKeyRef:
+                    { name: platform-secrets, key: POSTGRES_PASSWORD },
+                }
+            - name: DB_NAME
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: NEWS_SERVICE_DB_NAME },
+                }
+            - name: DB_SSLMODE
+              value: "require"
+            - name: SERVER_PORT
+              value: "8087"
+            - name: KAFKA_URL
+              valueFrom:
+                { configMapKeyRef: { name: platform-config, key: KAFKA_SEEDS } }
+            - name: KAFKA_SEEDS
+              valueFrom:
+                { configMapKeyRef: { name: platform-config, key: KAFKA_SEEDS } }
+            - name: KAFKA_ENABLE_TLS
+              value: "true"
+            - name: KAFKA_SASL_USER
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: KAFKA_SASL_USER },
+                }
+            - name: KAFKA_SASL_PASS
+              valueFrom:
+                {
+                  secretKeyRef:
+                    { name: platform-secrets, key: KAFKA_SASL_PASS },
+                }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: news-service
+spec:
+  selector:
+    app: news-service
+  ports:
+    - protocol: TCP
+      port: 8087
+      targetPort: 8087
+  type: ClusterIP

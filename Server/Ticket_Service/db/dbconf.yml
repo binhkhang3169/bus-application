@@ -1,0 +1,3 @@
+development:
+  driver: postgres
+  open: "user=postgres password=postgres host=postgres_ticket port=5432 dbname=ticket_db sslmode=disable"

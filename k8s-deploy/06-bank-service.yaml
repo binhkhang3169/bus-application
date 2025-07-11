@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bank-service-deployment
+  labels:
+    app: bank-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bank-service
+  template:
+    metadata:
+      labels:
+        app: bank-service
+    spec:
+      containers:
+        - name: bank-service
+          image: duancntt.azurecr.io/bank-service:v2
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8086
+          env:
+            - name: SERVER_PORT
+              value: "8086"
+            - name: DB_HOST
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: POSTGRES_HOST },
+                }
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_USER
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: POSTGRES_USER },
+                }
+            - name: DB_NAME
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: BANK_SERVICE_DB_NAME },
+                }
+            - name: DB_SSL_MODE
+              value: "require"
+            - name: DB_PASSWORD
+              valueFrom:
+                {
+                  secretKeyRef:
+                    { name: platform-secrets, key: POSTGRES_PASSWORD },
+                }
+            - name: DB_DRIVER
+              value: "postgres"
+            - name: DB_MAX_CONNECTIONS
+              value: "10"
+            - name: DB_MIN_CONNECTIONS
+              value: "2"
+            - name: KAFKA_ENABLE_TLS
+              value: "true"
+            - name: KAFKA_SEEDS
+              valueFrom:
+                { configMapKeyRef: { name: platform-config, key: KAFKA_SEEDS } }
+            - name: JWT_SECRET
+              valueFrom:
+                {
+                  secretKeyRef:
+                    { name: platform-secrets, key: JWT_SECRET_KEY },
+                }
+            - name: KAFKA_SASL_USER
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: KAFKA_SASL_USER },
+                }
+            - name: KAFKA_SASL_PASS
+              valueFrom:
+                {
+                  secretKeyRef:
+                    { name: platform-secrets, key: KAFKA_SASL_PASS },
+                }
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bank-service
+spec:
+  selector:
+    app: bank-service
+  ports:
+    - protocol: TCP
+      port: 8086
+      targetPort: 8086
+  type: ClusterIP

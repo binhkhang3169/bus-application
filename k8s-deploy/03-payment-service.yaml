@@ -1,0 +1,136 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-service-deployment
+  labels:
+    app: payment-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment-service
+  template:
+    metadata:
+      labels:
+        app: payment-service
+    spec:
+      containers:
+        - name: payment-service
+          image: duancntt.azurecr.io/payment-service:v2
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8083
+          env:
+            - name: SERVER_PORT
+              value: "8083"
+            - name: DB_HOST
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: POSTGRES_HOST },
+                }
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_USER
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: POSTGRES_USER },
+                }
+            - name: DB_NAME
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: PAYMENT_SERVICE_DB_NAME },
+                }
+            - name: DB_SSL_MODE
+              value: "require"
+            - name: DRIVER
+              value: "postgres"
+            - name: REDIS_URL
+              valueFrom:
+                { secretKeyRef: { name: platform-secrets, key: REDIS_URL } }
+            - name: KAFKA_SEEDS
+              valueFrom:
+                { configMapKeyRef: { name: platform-config, key: KAFKA_SEEDS } }
+            - name: KAFKA_ENABLE_TLS
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: KAFKA_ENABLE_TLS },
+                }
+            - name: KAFKA_TOPIC
+              value: "ticket_status_updates"
+            - name: TICKET_SERVICE_URL
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: TICKET_SERVICE_URL },
+                }
+            - name: VNPAY_RETURN_URL
+              value: "http://bink3169.me/#/ket-qua-dat-ve"
+            - name: VNPAY_TMN_CODE
+              valueFrom:
+                {
+                  configMapKeyRef: { name: platform-config, key: VNPAY_TMN_CODE },
+                }
+            - name: DB_PASSWORD
+              valueFrom:
+                {
+                  secretKeyRef:
+                    { name: platform-secrets, key: POSTGRES_PASSWORD },
+                }
+            - name: JWT_TOKEN
+              valueFrom:
+                {
+                  secretKeyRef: { name: platform-secrets, key: JWT_SECRET_KEY },
+                }
+            - name: VNPAY_HASH_SECRET
+              valueFrom:
+                {
+                  secretKeyRef:
+                    { name: platform-secrets, key: VNPAY_HASH_SECRET },
+                }
+            - name: STRIPE_SECRET_KEY
+              valueFrom:
+                {
+                  secretKeyRef:
+                    { name: platform-secrets, key: STRIPE_SECRET_KEY },
+                }
+            - name: STRIPE_PUBLISHABLE_KEY
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: STRIPE_PUBLISHABLE_KEY },
+                }
+            - name: STRIPE_WEBHOOK_SECRET
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: STRIPE_WEBHOOK_SECRET },
+                }
+            - name: KAFKA_SASL_USER
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: KAFKA_SASL_USER },
+                }
+            - name: KAFKA_SASL_PASS
+              valueFrom:
+                {
+                  secretKeyRef:
+                    { name: platform-secrets, key: KAFKA_SASL_PASS },
+                }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-service
+spec:
+  selector:
+    app: payment-service
+  ports:
+    - protocol: TCP
+      port: 8083
+      targetPort: 8083
+  type: ClusterIP

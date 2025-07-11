@@ -1,0 +1,104 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-service-deployment
+  labels:
+    app: notification-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notification-service
+  template:
+    metadata:
+      labels:
+        app: notification-service
+    spec:
+      containers:
+        - name: notification-service
+          image: duancntt.azurecr.io/notification-service:v1
+          ports:
+            - containerPort: 8089
+          env:
+            - name: HTTP_PORT
+              value: "8089"
+            - name: DB_HOST
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: POSTGRES_HOST },
+                }
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_USER
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: POSTGRES_USER },
+                }
+            - name: DB_NAME
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    {
+                      name: platform-config,
+                      key: NOTIFICATION_SERVICE_DB_NAME,
+                    },
+                }
+            - name: DB_SSLMODE
+              value: "require"
+            - name: KAFKA_SEEDS
+              valueFrom:
+                { configMapKeyRef: { name: platform-config, key: KAFKA_SEEDS } }
+            - name: KAFKA_ENABLE_TLS
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: KAFKA_ENABLE_TLS },
+                }
+            - name: KAFKA_TOPIC_NOTIFICATIONS
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: KAFKA_TOPIC_NOTIFICATIONS },
+                }
+            - name: KAFKA_GROUP_ID
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    {
+                      name: platform-config,
+                      key: KAFKA_GROUP_ID_NOTIFICATIONS,
+                    },
+                }
+            - name: DB_PASSWORD
+              valueFrom:
+                {
+                  secretKeyRef:
+                    { name: platform-secrets, key: POSTGRES_PASSWORD },
+                }
+            - name: KAFKA_SASL_USER
+              valueFrom:
+                {
+                  configMapKeyRef:
+                    { name: platform-config, key: KAFKA_SASL_USER },
+                }
+            - name: KAFKA_SASL_PASS
+              valueFrom:
+                {
+                  secretKeyRef:
+                    { name: platform-secrets, key: KAFKA_SASL_PASS },
+                }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification-service
+spec:
+  selector:
+    app: notification-service
+  ports:
+    - protocol: TCP
+      port: 8089
+      targetPort: 8089
+  type: ClusterIP

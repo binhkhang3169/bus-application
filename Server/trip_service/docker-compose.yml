@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  # mysql_trip_service:
+  #   image: mysql:8
+  #   container_name: mysql_trip_service
+  #   restart: always
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: root
+  #     MYSQL_DATABASE: trip_service
+  #     MYSQL_USER: user
+  #     MYSQL_PASSWORD: password
+  #   ports:
+  #     - "3307:3306"
+  #   volumes:
+  #     - ./init_trip_service.sql:/docker-entrypoint-initdb.d/init.sql
+  #   healthcheck:
+  #     test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+
+  trip_service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: trip_service_app
+    # depends_on:
+    #   mysql_trip_service:
+    #     condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: 
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 
+    ports:
+      - "8082:8082"
